@@ -5,11 +5,11 @@ import com.udacity.vehicles.client.prices.PriceClient;
 import com.udacity.vehicles.domain.Location;
 import com.udacity.vehicles.domain.car.Car;
 import com.udacity.vehicles.domain.car.CarRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.stereotype.Service;
 
 /**
  * Implements the car service create, read, update or delete
@@ -69,8 +69,9 @@ public class CarService {
          * Note: The car class file uses @transient, meaning you will need to call
          *   the pricing service each time to get the price.
          */
-        String price = priceClient.getPrice(id);
-        car.setPrice(price);
+
+        priceClient = new PriceClient(WebClient.create("http://localhost:8082"));
+        car.setPrice(priceClient.getPrice(id));
 
 
         /**

@@ -99,9 +99,9 @@ class CarController {
          * Use the `assembler` on that updated car and return as part of the response.
          *   Update the first line as part of the above implementing.
          */
-        car.setId(id);
-        carService.save(car);
-        Resource<Car> resource = assembler.toResource(car);
+        Car updateCar = carService.findById(car.getId());
+        carService.save(updateCar);
+        Resource<Car> resource = assembler.toResource(updateCar);
         return ResponseEntity.ok(resource);
     }
 
