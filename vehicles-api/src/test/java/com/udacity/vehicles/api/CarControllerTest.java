@@ -116,6 +116,20 @@ public class CarControllerTest {
     }
 
     /**
+     * Tests the update of a single car by ID
+     * @throws Exception if the
+     */
+    @Test
+    public void updateCar() throws Exception{
+        Car car = getCar();
+        mvc.perform(
+                put("/cars/{id}", 1L))
+                .andDo(mvcResult -> carService.save(car));
+
+        verify(carService, times(1)).save(car);
+    }
+
+    /**
      * Tests the deletion of a single car by ID.
      * @throws Exception if the delete operation of a vehicle fails
      */

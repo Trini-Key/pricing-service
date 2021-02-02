@@ -57,14 +57,18 @@ class CarController {
      * @return all information for the requested vehicle
      */
     @GetMapping("/{id}")
-    Resource<Car> get(@PathVariable Long id) {
+    Resource<Car> get(@PathVariable Long id){
+    //ResponseEntity<?> get(@PathVariable("id") Long id,){
         /**
          *  Use the `findById` method from the Car Service to get car information.
          *  Use the `assembler` on that car and return the resulting output.
          *   Update the first line as part of the above implementing.
          */
         Car car = carService.findById(id);
-        return assembler.toResource(car);
+        carService.save(car);
+        carService.findById(id);
+        Resource<Car> resource = assembler.toResource(car);
+        return resource;
     }
 
     /**
@@ -99,9 +103,11 @@ class CarController {
          * Use the `assembler` on that updated car and return as part of the response.
          *   Update the first line as part of the above implementing.
          */
-        Car updateCar = carService.findById(car.getId());
-        carService.save(updateCar);
-        Resource<Car> resource = assembler.toResource(updateCar);
+        Car carToUpdate = carService.findById(id);
+        car.setId(carToUpdate.getId());
+        carService.save(car);
+        carService.findById(id);
+        Resource<Car> resource = assembler.toResource(car);
         return ResponseEntity.ok(resource);
     }
 

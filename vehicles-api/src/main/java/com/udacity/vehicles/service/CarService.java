@@ -1,6 +1,7 @@
 package com.udacity.vehicles.service;
 
 import com.udacity.vehicles.client.maps.MapsClient;
+import com.udacity.vehicles.client.prices.Price;
 import com.udacity.vehicles.client.prices.PriceClient;
 import com.udacity.vehicles.domain.Location;
 import com.udacity.vehicles.domain.car.Car;
@@ -23,6 +24,7 @@ public class CarService {
     MapsClient mapsClient;
     PriceClient priceClient;
     Location location;
+    Price price;
 
 
     public CarService(CarRepository repository, MapsClient mapsClient, PriceClient priceClient) {
@@ -70,8 +72,9 @@ public class CarService {
          *   the pricing service each time to get the price.
          */
 
-        priceClient = new PriceClient(WebClient.create("http://localhost:8082"));
+        //priceClient = new PriceClient(WebClient.create("http://localhost:8082"));
         car.setPrice(priceClient.getPrice(id));
+
 
 
         /**
@@ -102,6 +105,7 @@ public class CarService {
                     .map(carToBeUpdated -> {
                         carToBeUpdated.setDetails(car.getDetails());
                         carToBeUpdated.setLocation(car.getLocation());
+                        carToBeUpdated.setPrice(car.getPrice());
                         return repository.save(carToBeUpdated);
                     }).orElseThrow(CarNotFoundException::new);
         }
