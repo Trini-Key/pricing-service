@@ -24,7 +24,6 @@ public class CarService {
     MapsClient mapsClient;
     PriceClient priceClient;
     Location location;
-    Price price;
 
 
     public CarService(CarRepository repository, MapsClient mapsClient, PriceClient priceClient) {
@@ -85,10 +84,7 @@ public class CarService {
          * Note: The Location class file also uses @transient for the address,
          * meaning the Maps service needs to be called each time for the address.
          */
-        Location address = mapsClient.getAddress(car.getLocation());
-        location = new Location(address.getLat(), address.getLon());
-        car.setLocation(location);
-
+        car.setLocation(mapsClient.getAddress(car.getLocation()));
 
         return car;
     }
