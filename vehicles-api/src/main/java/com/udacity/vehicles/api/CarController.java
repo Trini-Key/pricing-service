@@ -103,8 +103,7 @@ class CarController {
          * Use the `assembler` on that updated car and return as part of the response.
          *   Update the first line as part of the above implementing.
          */
-        Car carToUpdate = carService.findById(id);
-        car.setId(carToUpdate.getId());
+        car.setId(id);
         carService.save(car);
         carService.findById(id);
         Resource<Car> resource = assembler.toResource(car);
